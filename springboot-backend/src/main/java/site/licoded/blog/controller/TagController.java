@@ -9,6 +9,7 @@ import site.licoded.blog.entity.Post;
 import site.licoded.blog.resp.Response;
 import site.licoded.blog.resp.SuccessResponse;
 import site.licoded.blog.service.TagService;
+import site.licoded.blog.vo.TagPostList;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -38,5 +39,12 @@ public class TagController {
     Response getPostListByTag(@PathVariable(name = "tagName")String tagName) {
         List<Post> postList = tagService.getPostListByTag(tagName);
         return new SuccessResponse(postList);
+    }
+
+    @PassToken
+    @RequestMapping(value="/getPostListArrGroupByTag", produces = "application/json;charset=UTF-8")
+    Response getPostListArrGroupByTag() {
+        List<TagPostList> tagPostListArr = tagService.getTagPostListArr();
+        return new SuccessResponse(tagPostListArr);
     }
 }
