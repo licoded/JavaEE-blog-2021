@@ -1,19 +1,19 @@
 <template>
     <div id="tag-cloud">
-        <a v-for="(tag,id) in allTags" :class="'tag'+(id%3+1)" :data-name="'tag-'+tag">{{tag}}</a>
+        <a v-for="(tag,id) in allTags" :class="'tag'+(id%3+1)" :data-name="'tag-'+tag.tagName" :href="'#tag-'+tag.tagName">{{tag.tagName}}</a>
     </div>
-    <PostList v-for="(tag,id) in allTags"  :tag-name="tag"/>
+    <PostList v-for="(tag,id) in allTags"  :tag-name="tag.tagName" :post-list="tag.postList" />
 </template>
 <script lang="ts">
 import { onMounted, ref } from 'vue';
-import {getTagList} from '/@/api/tag';
+import {getTagList, getPostListArrGroupByTag} from '/@/api/tag';
 import PostList from './postList.vue'
 export default{
     components: {PostList},
     setup(){
         const allTags = ref();
         onMounted(async()=>{
-            await getTagList().then(data=>{
+            await getPostListArrGroupByTag().then(data => {
                 allTags.value = data;
             });
         });

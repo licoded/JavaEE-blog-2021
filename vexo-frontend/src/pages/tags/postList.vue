@@ -1,6 +1,6 @@
 <template>
     <div class="tag-list">
-        <h3 class="tag-name" id="tag-NodeJs">{{tagName}}</h3>
+        <h3 class="tag-name" :id="'tag-'+tagName">{{tagName}}</h3>
         <ul class="tag-preview">
             <li v-for="(item,id) in postList" :key="id">
                 <a :href="getPostLink(item)">{{item.title}}</a>
@@ -9,26 +9,23 @@
     </div>
 </template>
 <script lang="ts">
-import { onMounted, ref, Ref, defineComponent } from 'vue';
-import {getPostListByTag} from '/@/api/tag';
+import {defineComponent, PropType} from 'vue';
 export default defineComponent({
     props: {
         tagName: {
             type: String,
             required: true,
-        }
+        },
+        postList: {
+            type: Array as PropType<Array<IPostTitle>>,
+            required: true,
+        },
     },
     setup(props){
-        const postList:Ref<Array<IPostTitle>> = ref([]);
-        onMounted(()=>{
-            getPostListByTag(props.tagName).then(data => {
-                postList.value = data;
-            });
-        });
         const getPostLink = (item: IPostTitle) => {
             return `/post/${item.id}`;
         }
-        return {postList, getPostLink};
+        return {...props, getPostLink};
     }
 });
 </script>
