@@ -1,0 +1,44 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+
+a{
+    text-decoration: none;
+    color: #000;
+}
+
+.layout-container {
+	width: 100%;
+	height: 100%;
+}
+
+.layout-container .layout-aside{
+    background: #545c64;
+    box-shadow: 2px 0 6px rgb(0 21 41 / 1%);
+    height: inherit;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    overflow-x: hidden !important;
+}
+
+.el-menu, .el-menu-item{
+    color: #eaeaea;
+    background-color: transparent !important;
+}
+
+.layout-container .layout-aside .el-menu-item:hover{
+    color: #409eff !important;
+    background-color: transparent !important;
+}
+
+.fac{
+    display: flex;
+    align-items: center;
+}
+
+.el-button:not(:first-child){
+    margin-left: 10px;
+}

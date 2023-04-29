@@ -1,0 +1,100 @@
+body {
+  font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: none;
+  position: relative;
+  height: 100%;
+  margin: 0;
+  color: #34495e;
+  font-size: 16px;
+}
+
+ol,
+ul,
+form,
+p {
+  margin: 0;
+}
+
+a {
+  text-decoration: none;
+  color: #42b983;
+  cursor: pointer;
+}
+
+p {
+  word-spacing: 0.05em;
+}
+
+pre {
+  overflow-x: auto;
+}
+
+.flex-box {
+  display: flex;
+  display: -ms-flexbox;
+  display: -webkit-box;
+  transform: unset !important;
+}
+
+.guide-pager {
+  margin: 1em 3em;
+  display: flex;
+  justify-content: space-between;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.page-arrow {
+  color: #34495e;
+}
+
+.unvisible {
+  visibility: hidden;
+}
+
+.article-card {
+  padding-bottom: 20px;
+}
+.article-card:first-child {
+  margin-top: 60px;
+}
+
+h2.article-head {
+  font-size: 1.6em;
+  margin-bottom: 0;
+}
+
+.article-head > a {
+  color: #34495e;
+}
+
+.article-head > a:hover {
+  border-bottom: 2px solid #42b983;
+}
+
+.article-date {
+  color: #7f8c8d;
+  margin: 10px 0;
+  font-size: 0.9em;
+}
+
+.article-summary {
+  margin: 10px 0;
+  color: #34495e;
+}
+
+.more {
+  font-weight: 600;
+  display: inline-block;
+  transition: all 0.3s;
+}
+.more:hover {
+  transform: translateX(10px);
+}
+
+.fac{
+  display: flex;
+  align-items: center;
+}
