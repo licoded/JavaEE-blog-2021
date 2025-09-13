@@ -1,0 +1,60 @@
+version: '3.8'
+
+services:
+  # 后端服务定义
+  backend-service:
+    # `build` 指令告诉 Docker Compose 如何构建这个服务的镜像
+    build:
+      context: ./springboot-backend  # Dockerfile 所在的目录
+      dockerfile: Dockerfile
+    image: JavaEEblog/backend:latest  # 给构建出的镜像起个名字
+    container_name: JavaEEblog-backend
+    ports:
+      # 将宿主机的 9345 端口映射到容器的 9000 端口
+      # 这样您的内网穿透工具就可以映射宿主机的 9345 端口了
+      - "9345:9000"
+    restart: unless-stopped
+    # 关键改动 1: 添加环境变量，用于连接数据库
+    # Spring Boot 会自动读取这些环境变量，并覆盖 application.properties 中的配置
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/blogdb?useUnicode=true&characterEncoding=UTF-8
+      - SPRING_DATASOURCE_USERNAME=bloguser
+      - SPRING_DATASOURCE_PASSWORD=bloguser
+    # 关键改动 2: 添加 depends_on，确保 mysql-db 服务先于 backend-service 启动
+    depends_on:
+      - mysql-db
+
+  # 前端服务定义
+  frontend-blog:
+    build:
+      context: ./vexo-frontend
+      dockerfile: Dockerfile
+    image: JavaEEblog/frontend:latest
+    container_name: JavaEEblog-frontend
+    ports:
+      # 将宿主机的 9346 端口映射到容器的 80 端口 (Nginx 默认端口)
+      # 这样您的内网穿透工具就可以映射宿主机的 9346 端口了
+      - "9346:80"
+    restart: unless-stopped
+
+  # 新增：MySQL 服务定义
+  mysql-db:
+    image: mysql:8.0  # 建议使用具体的版本号而不是 latest
+    container_name: JavaEEblog-mysql
+    restart: unless-stopped
+    environment:
+      - MYSQL_ROOT_PASSWORD=verysecretrootpassword  # 设置 root 用户的密码 (请修改为更复杂的值)
+      - MYSQL_DATABASE=blog                       # 初始化时创建的数据库名
+      - MYSQL_USER=bloguser                       # 初始化时创建的用户名
+      - MYSQL_PASSWORD=bloguser                   # 初始化时创建的用户密码
+    ports:
+      - "3306:3306"
+    volumes:
+      # 将 mysql_data 这个 Docker Volume 挂载到容器内的数据存储目录
+      - mysql_data:/var/lib/mysql
+    # 关键：通过 command 设置默认编码
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+# 新增：定义一个顶层 volume，用于持久化存储
+volumes:
+  mysql_data:
