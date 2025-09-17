@@ -4,15 +4,21 @@ FROM node:18-alpine AS builder
 
 WORKDIR /app
 
-# 同样，先复制 package.json 相关文件来利用缓存
-COPY package*.json ./
-RUN npm install
+# 配置 npm 镜像源并安装 pnpm
+RUN npm config set registry https://registry.npmmirror.com && \
+    npm install -g pnpm@10
+
+# 复制 package.json 和 pnpm-lock.yaml 来利用缓存
+COPY package.json pnpm-lock.yaml* ./
+
+# 使用 pnpm 安装依赖
+RUN pnpm install --frozen-lockfile
 
 # 复制所有源代码
 COPY . .
 
 # 执行构建命令
-RUN npm run build
+RUN pnpm build
 
 # --- STAGE 2: Serve ---
 # 使用轻量的 Nginx 镜像来托管静态文件
