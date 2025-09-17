@@ -3,7 +3,7 @@
   <Comment :pid="parseInt(postId)"/>
 </template>
 <script lang="ts">
-import { ref, onMounted, computed, Ref } from 'vue';
+import { ref, onMounted, computed, Ref, watch } from 'vue';
 import { getPostById } from '/@/api/post';
 import Comment from '/@/components/comment/index.vue'
 import { useRoute } from 'vue-router';
@@ -15,7 +15,6 @@ import 'highlight.js/lib/languages/bash';
 import 'highlight.js/lib/languages/cpp';
 import 'highlight.js/lib/languages/ini';
 import 'highlight.js/styles/monokai-sublime.css';
-import { parse } from 'path/posix';
 
 marked.setOptions({
   renderer: new marked.Renderer(),
@@ -47,6 +46,13 @@ export default {
       });
       console.log(content.value);
     });
+
+    // 监听content变化，更新页面title
+    watch(content, (newContent) => {
+      if (newContent && newContent.title) {
+        document.title = `${newContent.title} | 星际穿越`;
+      }
+    }, { immediate: true });
 
     const compiledMarkdown = computed(() => {
       console.log(content.value);
