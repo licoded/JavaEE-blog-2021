@@ -24,6 +24,12 @@ RUN pnpm build
 # 使用轻量的 Nginx 镜像来托管静态文件
 FROM nginx:stable-alpine
 
+# 设置时区为北京时间
+RUN apk add --no-cache tzdata && \
+    ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    echo 'Asia/Shanghai' > /etc/timezone && \
+    apk del tzdata
+
 # 将构建好的 dist 文件夹内容复制到 Nginx 的默认网站根目录
 COPY --from=builder /app/dist /usr/share/nginx/html
 

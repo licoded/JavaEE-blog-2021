@@ -17,7 +17,7 @@ services:
     # 关键改动 1: 添加环境变量，用于连接数据库
     # Spring Boot 会自动读取这些环境变量，并覆盖 application.properties 中的配置
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/blogdb?useUnicode=true&characterEncoding=UTF-8
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql-db:3306/blog?useUnicode=true&characterEncoding=UTF-8
       - SPRING_DATASOURCE_USERNAME=bloguser
       - SPRING_DATASOURCE_PASSWORD=bloguser
     # 关键改动 2: 添加 depends_on，确保 mysql-db 服务先于 backend-service 启动
@@ -52,6 +52,8 @@ services:
     volumes:
       # 将 mysql_data 这个 Docker Volume 挂载到容器内的数据存储目录
       - mysql_data:/var/lib/mysql
+      # 挂载初始化SQL脚本
+      - ./springboot-backend/sql/blog.sql:/docker-entrypoint-initdb.d/01-init.sql
     # 关键：通过 command 设置默认编码
     command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
 

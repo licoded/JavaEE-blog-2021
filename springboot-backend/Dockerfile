@@ -26,8 +26,12 @@ WORKDIR /app
 # 注意路径中的 target/*.jar 可能需要根据您项目的实际情况调整
 COPY --from=builder /app/target/*.jar app.jar
 
+# 设置时区为北京时间
+RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+    echo 'Asia/Shanghai' > /etc/timezone
+
 # 暴露 Spring Boot 应用的端口
 EXPOSE 8080
 
-# 容器启动时运行 jar 包
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# 容器启动时运行 jar 包，添加时区JVM参数
+ENTRYPOINT ["java", "-Duser.timezone=Asia/Shanghai", "-jar", "app.jar"]
