@@ -4,7 +4,7 @@
             <a :href="getPostLink(item)">{{ item.title }}</a>
         </h2>
         <p class="article-date">{{ item.date }}</p>
-        <div class="article-summary">{{ item.summary }}...</div>
+        <div class="article-summary">{{ item.summary }}</div>
         <a class="more" :href="getPostLink(item)">阅读全文</a>
     </article>
     <div class="guide-pager">
