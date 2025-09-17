@@ -36,6 +36,16 @@ services:
       # 这样您的内网穿透工具就可以映射宿主机的 9346 端口了
       - "9346:80"
     restart: unless-stopped
+  
+  frontend-blog-admin:
+    build:
+      context: ./admin-frontend
+      dockerfile: Dockerfile
+    image: JavaEEblog/frontend-admin:latest
+    container_name: JavaEEblog-frontend-admin
+    ports:
+      - "9347:80"
+    restart: unless-stopped
 
   # 新增：MySQL 服务定义
   mysql-db:
