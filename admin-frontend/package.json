@@ -3,12 +3,12 @@
   "version": "0.0.0",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview"
   },
   "dependencies": {
     "axios": "^0.21.1",
-    "element-plus": "^1.0.2-beta.48",
+    "element-plus": "~1.0.2-beta.48",
     "highlight.js": "^11.0.1",
     "marked": "^2.1.0",
     "moment": "^2.29.1",
