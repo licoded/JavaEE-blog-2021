@@ -46,7 +46,7 @@ router.beforeEach(async (to, from, next) => {
   // NProgress.start();
   const header = useHeaderOut();
   if (to.path.slice(0, 5) == "/post") {
-    const postId = to.params.id as string;
+    const postId = parseInt(to.params.id as string, 10);
     await getPost(postId).then((data) => {
       header.setHeader({
         title: data.title,

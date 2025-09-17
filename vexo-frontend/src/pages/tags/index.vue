@@ -1,6 +1,6 @@
 <template>
     <div id="tag-cloud">
-        <a v-for="(tag,id) in allTags" :class="'tag'+(id%3+1)" :data-name="'tag-'+tag.tagName" :href="'#tag-'+tag.tagName">{{tag.tagName}}</a>
+        <a v-for="(tag,id) in allTags" :class="'tag'+((id as number)%3+1)" :data-name="'tag-'+tag.tagName" :href="'#tag-'+tag.tagName">{{tag.tagName}}</a>
     </div>
     <PostList v-for="(tag,id) in allTags"  :tag-name="tag.tagName" :post-list="tag.postList" />
 </template>

@@ -35,13 +35,11 @@ axios.interceptors.response.use(
 );
 
 export function get<T = any>(url: string, params?: any):Promise<T> {
-  return Promise.resolve(
-    axios.get(url, {
-      params: params,
-    })
-  );
+  return axios.get(url, {
+    params: params,
+  });
 }
 
 export function post<T = any>(url: string, params?: any):Promise<T> {
-  return Promise.resolve(axios.post(url, params));
+  return axios.post(url, params);
 }
