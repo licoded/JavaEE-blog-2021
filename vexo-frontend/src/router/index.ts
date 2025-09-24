@@ -1,5 +1,4 @@
 import { createRouter, createWebHistory } from "vue-router";
-import { getPost } from "./data";
 import useHeaderOut from "../store/header";
 import Home from "../pages/home/index.vue";
 
@@ -46,14 +45,6 @@ router.beforeEach(async (to, from, next) => {
   // NProgress.start();
   const header = useHeaderOut();
   if (to.path.slice(0, 5) == "/post") {
-    const postId = parseInt(to.params.id as string, 10);
-    await getPost(postId).then((data) => {
-      header.setHeader({
-        title: data.title,
-        subtitle: data.date,
-        svgId: rand(0, 2),
-      });
-    });
   } else if (to.path.slice(0, 5) == "/tags") {
     header.setHeader({ title: "Tags", subtitle: "标签检索", svgId: 0 });
   } else if (to.path.slice(0, 9) == "/archives") {

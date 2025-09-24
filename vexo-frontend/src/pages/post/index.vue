@@ -15,6 +15,7 @@ import 'highlight.js/lib/languages/bash';
 import 'highlight.js/lib/languages/cpp';
 import 'highlight.js/lib/languages/ini';
 import 'highlight.js/styles/monokai-sublime.css';
+import useHeaderOut from '/@/store/header';
 
 marked.setOptions({
   renderer: new marked.Renderer(),
@@ -34,6 +35,7 @@ marked.setOptions({
 export default {
   components: {Comment},
   setup() {
+    const header = useHeaderOut();
     const route = useRoute();
     const content: Ref<IPost | undefined> = ref();
     const postId = ref();
@@ -43,16 +45,14 @@ export default {
       console.log('psotId', postId.value);
       await getPostById(postId.value).then(data => {
         content.value = data;
+        header.setHeader({
+          title: data.title,
+          subtitle: data.date,
+          svgId: Math.floor(Math.random() * 3), // 0, 1, 2 中随机选择
+        })
       });
       console.log(content.value);
     });
-
-    // 监听content变化，更新页面title
-    watch(content, (newContent) => {
-      if (newContent && newContent.title) {
-        document.title = `${newContent.title} | 星际穿越`;
-      }
-    }, { immediate: true });
 
     const compiledMarkdown = computed(() => {
       console.log(content.value);
