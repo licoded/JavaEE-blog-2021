@@ -11,14 +11,18 @@ export const useHeader = defineStore({
   actions: {
     setHeader(header: IHeader) {
       console.log(header);
-
       this.svgId = header.svgId;
       this.title = header.title;
       this.subtitle = header.subtitle;
     },
-    getHeader() {
-      return { title: this.title, subtitle: this.subtitle, svgId: this.svgId };
-    },
+  },
+  getters: {
+    appTitle(): string {
+      if (!this.title) {
+        return "星际穿越 | Licoded's Blog";
+      }
+      return `${this.title} | 星际穿越`;
+    }
   },
 });
 

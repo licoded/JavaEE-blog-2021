@@ -34,7 +34,7 @@ import { ref, computed, onMounted } from 'vue';
 import { svgList } from './svg';
 import { navList } from './data';
 import { useRoute } from 'vue-router';
-import { useHeader } from "../store/header";
+import useHeaderOut, { useHeader } from "../store/header";
 
 export default {
     setup() {
@@ -43,7 +43,7 @@ export default {
         const title = ref();
         const subtitle = ref();
         const curLink = computed(() => {
-            const header = useHeader().getHeader();
+            const header = useHeaderOut();
             title.value = header.title;
             subtitle.value = header.subtitle;
             svg.value = svgList[header.svgId];

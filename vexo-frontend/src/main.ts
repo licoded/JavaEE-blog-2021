@@ -1,12 +1,23 @@
-import { createApp } from "vue";
+import { createApp, watch } from "vue";
 import router from "./router";
 import { setupStore } from "./store";
+import useHeaderOut from "./store/header";
 import App from "./layouts/App.vue";
 
 
 const app = createApp(App);
 setupStore(app);
 app.use(router);
+
+// 初始化header store的document.title同步
+const header = useHeaderOut();
+// 监听title变化并自动更新document.title
+watch(() => header.appTitle, (newTitle) => {
+  document.title = newTitle;
+}, {
+  immediate: true
+});
+
 app.mount("#app");
 
 import NProgress from 'nprogress';
